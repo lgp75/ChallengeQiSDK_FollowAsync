@@ -57,14 +57,7 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
         setContentView(R.layout.activity_main);
         QiSDK.register(this, this);
         Button button = findViewById(R.id.sayhello);
-        button.setOnClickListener((View v) -> {
-            if (state == STATE_PAUSED) {
-                setState(STATE_ALONE);
-                onRecommendedHuman(nextHuman);
-            } else {
-                setState(STATE_PAUSED);
-            }
-        });
+        // TODO 2 add a button  to pause
     }
 
     @Override
@@ -114,13 +107,10 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
             Log.i(TAG, "Engage started.");
             engage.async().run().thenConsume((engageFuture) -> {
                 Log.i(TAG, "Engage finished.");
-                if (engageFuture.isCancelled()) {
-                    showToast("Engage was cancelled ??");
-                } else if (engageFuture.hasError()) {
-                    showToast("Engage has error: " + engageFuture.getErrorMessage());
-                } else {
-                    showToast("Engage is done");
-                }
+
+                // TODO handle the cancellation, error and success of the future
+                // make use of toast message
+
                 engagedHuman = null;
                 setState(STATE_ALONE);
                 onRecommendedHuman(nextHuman);
@@ -161,16 +151,11 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
     private void goToDone(Future<Void> future)  {
         Log.i(TAG, "goToDone()");
 
-        if (future.hasError()) {
-            Log.i(TAG, "Error msg : " + future.getErrorMessage());
-            showToast("Move failed, let's try again");
-            // TODO run the goTo again
-        } else if (future.isCancelled()) {
-            showToast("Move Cancelled");
-        } else {
-            showToast("Move Succeeded (now what?)");
-            setState(STATE_ARRIVED);
-        }
+        // TODO handle the cancellation, error and success of the future
+        // TODO on error run the goTo again
+        // make use of toasts
+
+
         // TODO holder release
     }
 
